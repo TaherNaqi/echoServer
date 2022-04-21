@@ -1,12 +1,8 @@
-const http = require("http");
-const querystring = require("querystring");
 const express = require("express");
 const app = express();
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const url = require("url");
-const port = 3000;
-const host = "localhost";
 const winston = require("winston");
 const moment = require("moment");
 const swaggerOptions = {
@@ -16,7 +12,7 @@ const swaggerOptions = {
       description: "Echoing back to the server",
       contact: { name: "Developer" },
 
-      servers: ["http://localhost:3000"],
+      servers: ["http://localhost:8000"],
     },
   },
   apis: ["server.js"],
@@ -25,13 +21,22 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 /**
  * @swagger
- * /test:
- *  get:
- *    description: Use to get echo back from server
- *    responses:
- *      '200':
- *        description: a successful echo back
+ *    paths:
+ *      /v2/dao/healthcheck/echo?:
+ *        get:
+ *           parameters:
+ *            - in: query
+ *              name: message   # Note the name is the same as in the path
+ *              required: true
+ *              type: string
+ *              description: Message to be echoed.
+ *           responses:
+ *             200:
+ *               description: OK
  */
+
+//Initializing logger
+
 const logger = winston.createLogger({
   transports: [
     new winston.transports.Console(),
@@ -52,7 +57,6 @@ app.get("/v2/dao/healthcheck/echo?", function (req, res) {
     res.status(404).end("Invalid request");
   }
 });
-//Initializing logger
 
 // const server = http.createServer(function (req, res) {
 //   const parsedURL = url.parse(req.url, true);

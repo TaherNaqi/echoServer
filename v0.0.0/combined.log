@@ -1,5 +1,2 @@
-{"level":"info","message":"Request on /v2/dao/healthcheck/echo?message=test is successful","time":"14:00:03"}
-{"level":"info","message":"Request on /v2/dao/healthcheck/echo? is successful","time":"14:01:57"}
-{"level":"info","message":"Request on /v2/dao/healthcheck/echo? is successful","time":"14:02:45"}
-{"level":"info","message":"Request on /v2/dao/healthcheck/echo?message=test123 is successful","time":"14:04:14"}
-{"level":"info","message":"Request on /v2/dao/healthcheck/echo?message=test123 is successful","time":"14:14:36"}
+{"level":"info","message":"Request on /v2/dao/healthcheck/echo?message=sss is successful","time":"02:09:11"}
+{"level":"info","message":"Request on /v2/dao/healthcheck/echo?message=hello is successful","time":"02:12:42"}
