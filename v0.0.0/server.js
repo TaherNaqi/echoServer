@@ -27,12 +27,14 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *           parameters:
  *            - in: query
  *              name: message   # Note the name is the same as in the path
- *              required: true
+ *              required: false
  *              type: string
  *              description: Message to be echoed.
  *           responses:
  *             200:
- *               description: OK
+ *               description: Successfully echoed back message
+ *             404:
+ *               description: Invalid request
  */
 
 //Initializing logger
@@ -44,47 +46,21 @@ const logger = winston.createLogger({
   ],
 });
 app.get("/v2/dao/healthcheck/echo?", function (req, res) {
-  try {
-    const timeStamps = moment().format("HH:mm:ss");
-    if (url.parse(req.url, true).query)
-      logger.log({
-        level: "info",
-        message: `Request on ${req.url} is successful`,
-        time: timeStamps,
-      });
+  const timeStamps = moment().format("HH:mm:ss");
+  if (url.parse(req.url, true).query.message) {
+    logger.log({
+      level: "info",
+      message: `Request on ${req.url} is successful`,
+      time: timeStamps,
+    });
     res.status(200).json(url.parse(req.url, true).query);
-  } catch (error) {
+  } else {
+    logger.log({
+      level: "error",
+      message: `Request on ${req.url} failed`,
+      time: timeStamps,
+    });
     res.status(404).end("Invalid request");
   }
 });
-
-// const server = http.createServer(function (req, res) {
-//   const parsedURL = url.parse(req.url, true);
-//   const timeStamps = moment().format("HH:mm:ss");
-//   if (
-//     parsedURL.pathname == "/v2/dao/healthcheck/echo" &&
-//     parsedURL.query.message
-//   ) {
-//     res.statusCode = 200; //Successfull
-//     res.setHeader("Content-Type", "application/json");
-//     res.end(JSON.stringify({ message: parsedURL.query.message })) &&
-//       logger.log({
-//         level: "info",
-//         message: `Request on ${req.url} is successful`,
-//         time: timeStamps,
-//       });
-//   } else {
-//     res.statusCode = 404; //Failed - Invalid Request
-//     res.end("Request not valid") &&
-//       logger.log({
-//         level: "error",
-//         message: `Request on ${req.originalUrl} failed`,
-//         time: timeStamps,
-//       });
-//   }
-// });
 app.listen(8000, () => console.log("Swagger is running on port 8000")); // Swagger Port
-
-// server.listen(port, host, () => {
-//   console.log("Echo server is running on port 3000");
-// }); //Echo server
