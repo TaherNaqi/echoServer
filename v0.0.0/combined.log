@@ -1,0 +1,2 @@
+{"level":"info","message":"Request on /v2/dao/healthcheck/echo?message=hello is successful","time":"02:26:55"}
+{"level":"info","message":"Request on /v2/dao/healthcheck/echo?message=test is successful","time":"02:32:30"}
