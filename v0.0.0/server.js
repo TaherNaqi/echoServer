@@ -33,5 +33,5 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *             404:
  *               description: Invalid request
  */
-app.use("", echoRoute);
+app.use("/v2/dao/healthcheck/echo?", echoRoute);
 app.listen(8000, () => console.log("Swagger is running on port 8000")); // Swagger Port
